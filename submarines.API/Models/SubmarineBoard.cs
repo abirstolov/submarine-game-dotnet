@@ -5,36 +5,67 @@ public class SubmarinesBoard()
     const int Width = 10;
     const int Height = 10;
 
-    public bool[,] Grid { get; internal set; } = new bool[Width, Height];
+    private bool[,] _grid = new bool[Width, Height];
+
+    /*
+    No.	Class of ship	Size
+    1	Carrier	        5
+    2	Battleship	    4
+    3	Cruiser	        3
+    4	Submarine	    3
+    5	Destroyer	    2
+    */
+    private List<int> _allowedLengthOfSubmarines = [2, 3, 3, 4, 5];
 
     public void Place(XYLocation xYLocation, Orientation orientation, int length)
     {
-        if (orientation == Orientation.Horizontal)
-            if (xYLocation.X + length > Width)
-                throw new ArgumentOutOfRangeException($"Width overflow (Width = {Width})");
-        else
-            if (xYLocation.Y + length > Height)
-                throw new ArgumentOutOfRangeException($"Height overflow (Height = {Height}");
-        
-        List<XYLocation> newOccupiedLocations = GenerateXYLocations(xYLocation, orientation, length);
+        List<XYLocation> newOccupiedLocations = ValidatePlacment(xYLocation, orientation, length);
 
-        for (int i=0; i<length; i++)
-            if (IsAdjacentOrOccupied(xYLocation.X + (orientation == Orientation.Horizontal? i : 0), xYLocation.Y + (orientation == Orientation.Vertical? i : 0)))
+        ApplyPlacment(length, newOccupiedLocations);
+
+        void ApplyPlacment(int length, List<XYLocation> newOccupiedLocations)
+        {
+            _allowedLengthOfSubmarines.Remove(length);
+            foreach (var location in newOccupiedLocations)
+                _grid[location.X, location.Y] = true;
+        }
+
+        List<XYLocation> ValidatePlacment(XYLocation xYLocation, Orientation orientation, int length)
+        {
+            if (orientation == Orientation.Horizontal)
+                if (xYLocation.X + length > Width)
+                    throw new ArgumentOutOfRangeException($"Width overflow (Width = {Width})");
+            else
+                if (xYLocation.Y + length > Height)
+                    throw new ArgumentOutOfRangeException($"Height overflow (Height = {Height}");
+            if (!_allowedLengthOfSubmarines.Contains(length))
                 throw new InvalidPlacementException();
-        
-        // for (int i=0; i<length; i++)
-        //     Grid[xYLocation.X + (orientation == Orientation.Horizontal? i : 0), xYLocation.Y + (orientation == Orientation.Vertical? i : 0)] = true;
-        foreach (var location in newOccupiedLocations)
-            Grid[location.X, location.Y] = true;
+
+            List<XYLocation> newOccupiedLocations = GenerateXYLocations(xYLocation, orientation, length);
+
+            for (int i = 0; i < length; i++)
+                if (IsAdjacentOrOccupied(xYLocation.X + (orientation == Orientation.Horizontal ? i : 0), xYLocation.Y + (orientation == Orientation.Vertical ? i : 0)))
+                    throw new InvalidPlacementException();
+            return newOccupiedLocations;
+        }
     }
 
+    public bool IsOccupied(XYLocation xYLocation)
+        => _grid[xYLocation.X, xYLocation.Y];
+
+    public enum Orientation
+    {
+        Horizontal,
+        Vertical
+    }
+    
     private bool IsAdjacentOrOccupied(int x, int y)
     {
-        if (Grid[x, y])
+        if (_grid[x, y])
             return true;
-        if (Grid[Math.Min(x+1, Width-1), y] || Grid[Math.Max(x-1, 0), y])
+        if (_grid[Math.Min(x+1, Width-1), y] || _grid[Math.Max(x-1, 0), y])
             return true;
-        if (Grid[x, Math.Min(y+1, Height-1)] || Grid[x, Math.Max(y-1, 0)])
+        if (_grid[x, Math.Min(y+1, Height-1)] || _grid[x, Math.Max(y-1, 0)])
             return true;
         return false;
     }
@@ -49,9 +80,4 @@ public class SubmarinesBoard()
         return xyLocations;
     }
 
-    public enum Orientation
-    {
-        Horizontal,
-        Vertical
-    }
 }

@@ -12,7 +12,7 @@ namespace submarines.API.BL
     {
         public IResult GetIsSubmarineAtLocation(XYLocation xYLocation)
         {
-            bool isOccupied = submarinesBoard.Grid[xYLocation.X, xYLocation.Y];
+            bool isOccupied = submarinesBoard.IsOccupied(xYLocation);
             return TypedResults.Ok<bool>(isOccupied);
         }
 
