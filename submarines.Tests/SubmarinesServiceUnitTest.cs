@@ -47,7 +47,7 @@ public class SubmarinesServiceUnitTest
         SubmarinesBoard submarinesBoard = new();
         var submarinesService = new SubmarinesService(submarinesBoard);
 
-        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 9), SubmarinesBoard.Orientation.Vertical, 3));
+        var response = submarinesService.PutSubmarineOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 9), SubmarinesBoard.Orientation.Vertical, 3));
 
         Assert.NotNull(response);
         response.Should().BeOfType<BadRequest>();
@@ -60,12 +60,12 @@ public class SubmarinesServiceUnitTest
         SubmarinesBoard submarinesBoard = new();
         var submarinesService = new SubmarinesService(submarinesBoard);
 
-        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+        var response = submarinesService.PutSubmarineOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
 
         Assert.NotNull(response);
         response.Should().BeOfType<Ok>();
 
-        response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+        response = submarinesService.PutSubmarineOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
 
         Assert.NotNull(response);
         response.Should().BeOfType<BadRequest>();
@@ -78,12 +78,12 @@ public class SubmarinesServiceUnitTest
         SubmarinesBoard submarinesBoard = new();
         var submarinesService = new SubmarinesService(submarinesBoard);
 
-        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+        var response = submarinesService.PutSubmarineOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
 
         Assert.NotNull(response);
         response.Should().BeOfType<Ok>();
 
-        response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 0), SubmarinesBoard.Orientation.Horizontal, 6));
+        response = submarinesService.PutSubmarineOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 0), SubmarinesBoard.Orientation.Horizontal, 6));
 
         Assert.NotNull(response);
         response.Should().BeOfType<BadRequest>();

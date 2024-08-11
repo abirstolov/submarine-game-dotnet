@@ -16,7 +16,7 @@ namespace submarines.API.BL
             return TypedResults.Ok<bool>(isOccupied);
         }
 
-        public IResult PutSubmarinesOnBoard(SubmarineBoardPlacment submarineBoardPlacment)
+        public IResult PutSubmarineOnBoard(SubmarineBoardPlacment submarineBoardPlacment)
         {
             try
             {
