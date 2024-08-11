@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace submarines.API.BL
 {
-    public class MisslesService
+    public class MisslesService(SubmarinesBoard submarinesBoard)
     {
-        public IResult PostMissle()
+        public IResult GetIsSubmarineAtLocation(XYLocation xYLocation)
         {
-            return TypedResults.Created("2");
+            bool isOccupied = submarinesBoard.Grid[xYLocation.X, xYLocation.Y];
+            return TypedResults.Ok<bool>(isOccupied);
         }
+
     }
 }

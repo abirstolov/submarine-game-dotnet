@@ -1,0 +1,1 @@
+public record XYLocation(int X, int Y);
