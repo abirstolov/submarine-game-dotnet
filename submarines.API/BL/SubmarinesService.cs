@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using submarines.API.Models;
 
 namespace submarines.API.BL
 {
-    public class MisslesService(SubmarinesBoard submarinesBoard)
+    public class SubmarinesService(SubmarinesBoard submarinesBoard)
     {
         public IResult GetIsSubmarineAtLocation(XYLocation xYLocation)
         {
