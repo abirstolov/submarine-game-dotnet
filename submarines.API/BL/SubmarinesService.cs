@@ -16,5 +16,17 @@ namespace submarines.API.BL
             return TypedResults.Ok<bool>(isOccupied);
         }
 
+        public IResult PutSubmarinesOnBoard(SubmarineBoardPlacment submarineBoardPlacment)
+        {
+            try
+            {
+                submarinesBoard.Place(submarineBoardPlacment.xYLocation, submarineBoardPlacment.orientation, submarineBoardPlacment.length);
+                return TypedResults.Ok();
+            }
+            catch (InvalidPlacementException)
+            {
+                return TypedResults.BadRequest();            
+            }
+        }
     }
 }

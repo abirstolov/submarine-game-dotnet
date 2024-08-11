@@ -33,19 +33,23 @@ public class SubmarinesBoard()
         List<XYLocation> ValidatePlacment(XYLocation xYLocation, Orientation orientation, int length)
         {
             if (orientation == Orientation.Horizontal)
+            {
                 if (xYLocation.X + length > Width)
-                    throw new ArgumentOutOfRangeException($"Width overflow (Width = {Width})");
+                    throw new InvalidPlacementException($"Width overflow (Width = {Width})");
+            }
             else
+            {
                 if (xYLocation.Y + length > Height)
-                    throw new ArgumentOutOfRangeException($"Height overflow (Height = {Height}");
+                    throw new InvalidPlacementException($"Height overflow (Height = {Height}");
+            }
             if (!_allowedLengthOfSubmarines.Contains(length))
                 throw new InvalidPlacementException();
 
             List<XYLocation> newOccupiedLocations = GenerateXYLocations(xYLocation, orientation, length);
-
-            for (int i = 0; i < length; i++)
-                if (IsAdjacentOrOccupied(xYLocation.X + (orientation == Orientation.Horizontal ? i : 0), xYLocation.Y + (orientation == Orientation.Vertical ? i : 0)))
+            foreach (var location in newOccupiedLocations)
+                if (IsAdjacentOrCurrentOccupied(location.X, location.Y))
                     throw new InvalidPlacementException();
+
             return newOccupiedLocations;
         }
     }
@@ -59,7 +63,7 @@ public class SubmarinesBoard()
         Vertical
     }
     
-    private bool IsAdjacentOrOccupied(int x, int y)
+    private bool IsAdjacentOrCurrentOccupied(int x, int y)
     {
         if (_grid[x, y])
             return true;

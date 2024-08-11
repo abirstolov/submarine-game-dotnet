@@ -11,9 +11,9 @@ public class SubmarinesBoardUnitTest
         try
         {
             submarinesBoard.Place(new XYLocation(8,0), SubmarinesBoard.Orientation.Horizontal, length: 3);
-            Assert.Fail("Didn't throw an ArgumentOutOfRangeException");
+            Assert.Fail("Didn't throw an InvalidPlacementException");
         }
-        catch (ArgumentOutOfRangeException)
+        catch (InvalidPlacementException)
         {
         }
 

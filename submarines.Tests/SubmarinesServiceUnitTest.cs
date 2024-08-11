@@ -41,5 +41,53 @@ public class SubmarinesServiceUnitTest
         okResult.Value.Should().BeTrue();
     }
 
+    [Fact]
+    public void Put_Submarines_At_Board__Returns__Bad_Request__When_Invalidly_Placed()
+    {
+        SubmarinesBoard submarinesBoard = new();
+        var submarinesService = new SubmarinesService(submarinesBoard);
+
+        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 9), SubmarinesBoard.Orientation.Vertical, 3));
+
+        Assert.NotNull(response);
+        response.Should().BeOfType<BadRequest>();
+
+    }
+
+    [Fact]
+    public void Put_Submarines_At_Board__Returns__Bad_Request__When_Invalidly_Placed2()
+    {
+        SubmarinesBoard submarinesBoard = new();
+        var submarinesService = new SubmarinesService(submarinesBoard);
+
+        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+
+        Assert.NotNull(response);
+        response.Should().BeOfType<Ok>();
+
+        response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+
+        Assert.NotNull(response);
+        response.Should().BeOfType<BadRequest>();
+
+    }
+
+    [Fact]
+    public void Put_Submarines_At_Board__Returns__Bad_Request__When_Invalidly_Placed3()
+    {
+        SubmarinesBoard submarinesBoard = new();
+        var submarinesService = new SubmarinesService(submarinesBoard);
+
+        var response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 3), SubmarinesBoard.Orientation.Vertical, 3));
+
+        Assert.NotNull(response);
+        response.Should().BeOfType<Ok>();
+
+        response = submarinesService.PutSubmarinesOnBoard(new SubmarineBoardPlacment(new XYLocation(0, 0), SubmarinesBoard.Orientation.Horizontal, 6));
+
+        Assert.NotNull(response);
+        response.Should().BeOfType<BadRequest>();
+
+    }
     
 }
